@@ -157,15 +157,7 @@ example : (P → Q) → (Q → R) → P → R := by
 /-- If `h : P → Q → R` with goal `⊢ R` and you `apply h`, you'll get
 two goals! Note that tactics operate on only the first goal. -/
 example : (P → Q → R) → (P → Q) → P → R := by
-  intro hPQR hPQ hP
-  apply hPQR
-  exact hP
-  apply hPQ
-  exact hP
-
-
-
-
+  sorry
 
 /-
 Here are some harder puzzles. They won't teach you anything new about
@@ -177,52 +169,21 @@ in this section, where you'll learn some more tactics.
 variable (S T : Prop)
 
 example : (P → R) → (S → Q) → (R → T) → (Q → R) → S → T := by
-  intro  _ hSQ hRT hQR hS
-  apply hRT
-  apply hQR
-  apply hSQ
-  exact hS
-
-
-
-
+  sorry
 
 example : (P → Q) → ((P → Q) → P) → Q := by
-  intro hPQ hPQP
-  apply hPQ
-  apply hPQP
-  exact hPQ
+  sorry
 
 example : ((P → Q) → R) → ((Q → R) → P) → ((R → P) → Q) → P := by
-  intro hPQR hQRP hRPQ
-  apply hQRP
-  intro hQ
-  apply hPQR
-  intro hP
-  exact hQ
-
+  sorry
 
 example : ((Q → P) → P) → (Q → R) → (R → P) → P := by
-  intro hQPP hQR hRP
-  apply hQPP
-  intro hQ
-  apply hRP
-  apply hQR
-  exact hQ
+  sorry
 
 example : (((P → Q) → Q) → Q) → P → Q := by
-  intro hPQQQ hP
-  apply hPQQQ
-  intro hPQ
-  apply hPQ
-  exact hP
+  sorry
 
 example :
     (((P → Q → Q) → (P → Q) → Q) → R) →
       ((((P → P) → Q) → P → P → Q) → R) → (((P → P → Q) → (P → P) → Q) → R) → R := by
-  intro _ h2 _
-  apply h2
-  intro hPP_Q hP _
-  apply hPP_Q
-  intro
-  exact hP
+  sorry
