@@ -80,21 +80,13 @@ example : (P → Q) → ¬Q → ¬P := by
 
 example : ¬¬False → False := by
   intro hNNF
-  by_cases h : False
-  · exact h
-  · apply hNNF h
+  by_cases hF : False
+  · exact hF
+  · apply hNNF hF
 
 
 example : ¬¬P → P := by
-  intro hNNP
-  by_cases hP : P
-  · exact hP
-  · exfalso
-    apply hNNP hP
-
+  sorry
 
 example : (¬Q → ¬P) → P → Q := by
-  intro hNQ_NP hP
-  by_contra hNQ
-  apply hNQ_NP hNQ
-  exact hP
+  sorry

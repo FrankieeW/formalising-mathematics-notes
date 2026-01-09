@@ -59,42 +59,20 @@ example : False → ¬P := by
 
 example : P → ¬P → False := by
   intro hP hNP
-  -- change P → False at hNP
-  apply hNP
-  exact hP
-
-example : P → ¬P → False := by
-  intro hP hNP
+  change
   exact hNP hP
-
 
 example : P → ¬¬P := by
-  intro hP hNP
-  exact hNP hP
+  sorry
 
 example : (P → Q) → ¬Q → ¬P := by
-  intro hPQ hNQ hP
-  apply hNQ
-  apply hPQ
-  exact hP
+  sorry
 
 example : ¬¬False → False := by
-  intro hNNF
-  by_cases h : False
-  · exact h
-  · apply hNNF h
-
+  sorry
 
 example : ¬¬P → P := by
-  intro hNNP
-  by_cases hP : P
-  · exact hP
-  · exfalso
-    apply hNNP hP
-
+  sorry
 
 example : (¬Q → ¬P) → P → Q := by
-  intro hNQ_NP hP
-  by_contra hNQ
-  apply hNQ_NP hNQ
-  exact hP
+  sorry

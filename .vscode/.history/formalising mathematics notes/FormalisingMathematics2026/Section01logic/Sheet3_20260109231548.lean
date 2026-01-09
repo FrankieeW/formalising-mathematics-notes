@@ -94,7 +94,4 @@ example : ¬¬P → P := by
 
 
 example : (¬Q → ¬P) → P → Q := by
-  intro hNQ_NP hP
-  by_contra hNQ
-  apply hNQ_NP hNQ
-  exact hP
+  sorry
