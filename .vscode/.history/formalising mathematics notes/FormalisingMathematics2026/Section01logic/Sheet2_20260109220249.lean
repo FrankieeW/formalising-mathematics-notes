@@ -18,8 +18,8 @@ tactics, plus the following two new ones. Check out their explanations
 in the course book. Or just try them out and hover over them to see
 if you can understand what's going on.
 
-* `trivial` : solves goals that are `True`
-* `exfalso` : changes the goal to `False`
+* `trivial`
+* `exfalso`
 
 -/
 
@@ -47,13 +47,6 @@ example : True → True := by
 example : False → True := by
   intro h
   cases h
-
--- Alternative solution for the above:
-example : False → True := by
-  intro h
-  exfalso
-  exact h
--- END --
 
 example : False → False := by
   intro h
