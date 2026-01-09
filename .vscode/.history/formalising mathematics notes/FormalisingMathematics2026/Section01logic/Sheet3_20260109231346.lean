@@ -90,11 +90,8 @@ example : ¬¬P → P := by
   by_cases hP : P
   · exact hP
   · exfalso
-    apply hNNP hP
-
+    apply hNNP
+    exact hP
 
 example : (¬Q → ¬P) → P → Q := by
-  intro hNQ_NP hP
-  by_contra hNQ
-  apply hNQ_NP hNQ
-  exact hP
+  sorry
