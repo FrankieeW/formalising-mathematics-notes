@@ -48,13 +48,6 @@ example : False → True := by
   intro h
   cases h
 
--- Alternative solution for the above:
-example : False → True := by
-  intro h
-  exfalso
-  exact h
--- END --
-
 example : False → False := by
   intro h
   exact h
