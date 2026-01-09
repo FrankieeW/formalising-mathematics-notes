@@ -96,23 +96,11 @@ example : P → P ∧ True := by
   · trivial
 
 example : False → P ∧ False := by
-  intro hF
-  exfalso
-  -- assumption -- really powerful!
-  exact hF
+  sorry
 
 /-- `∧` is transitive -/
 example : P ∧ Q → Q ∧ R → P ∧ R := by
-  rintro ⟨p, q⟩ ⟨_, r⟩
-  constructor
-  · exact p
-  · exact r
-
-example : P ∧ Q → Q ∧ R → P ∧ R := by
-  rintro ⟨p, q⟩ ⟨_, r⟩
-  constructor <;> assumption
+  sorry
 
 example : (P ∧ Q → R) → P → Q → R := by
-  intro h p q
-  apply h
-  constructor <;> assumption
+  sorry

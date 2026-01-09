@@ -113,6 +113,6 @@ example : P ∧ Q → Q ∧ R → P ∧ R := by
   constructor <;> assumption
 
 example : (P ∧ Q → R) → P → Q → R := by
-  intro h p q
+  rintro (h,j) p q
   apply h
   constructor <;> assumption

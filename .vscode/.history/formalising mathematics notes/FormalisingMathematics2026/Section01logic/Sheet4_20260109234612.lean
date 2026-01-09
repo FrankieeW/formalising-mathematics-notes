@@ -17,7 +17,7 @@ We learn about how to manipulate `P ∧ Q` in Lean.
 You'll need to know about the tactics from the previous sheets,
 and also the following tactics:
 
-* `cases` to break down a conjunction
+* `cases` to break down a conjunction 
 * `constructor` to build a conjunction
 
 -/
@@ -58,12 +58,10 @@ example : P ∧ Q → P := by
   exact h.1
 
 example : P ∧ Q → Q := by
-  rintro ⟨left, right⟩
-  exact right
+  sorry
 
 example : (P → Q → R) → P ∧ Q → R := by
-  rintro h ⟨left, right⟩
-  exact h left right -- that is (h left) right
+  sorry
 
 example : P → Q → P ∧ Q := by
   intro hP hQ
@@ -86,33 +84,17 @@ example : P → Q → P ∧ Q := by
 
 /-- `∧` is symmetric -/
 example : P ∧ Q → Q ∧ P := by
-  rintro ⟨left, right⟩
-  constructor <;> assumption
+  sorry
 
 example : P → P ∧ True := by
-  intro hP
-  constructor
-  · assumption
-  · trivial
+  sorry
 
 example : False → P ∧ False := by
-  intro hF
-  exfalso
-  -- assumption -- really powerful!
-  exact hF
+  sorry
 
 /-- `∧` is transitive -/
 example : P ∧ Q → Q ∧ R → P ∧ R := by
-  rintro ⟨p, q⟩ ⟨_, r⟩
-  constructor
-  · exact p
-  · exact r
-
-example : P ∧ Q → Q ∧ R → P ∧ R := by
-  rintro ⟨p, q⟩ ⟨_, r⟩
-  constructor <;> assumption
+  sorry
 
 example : (P ∧ Q → R) → P → Q → R := by
-  intro h p q
-  apply h
-  constructor <;> assumption
+  sorry
