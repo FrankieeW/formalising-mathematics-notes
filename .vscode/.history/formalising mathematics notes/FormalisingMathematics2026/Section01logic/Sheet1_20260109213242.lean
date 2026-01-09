@@ -205,24 +205,14 @@ example : ((P → Q) → R) → ((Q → R) → P) → ((R → P) → Q) → P :=
 example : ((Q → P) → P) → (Q → R) → (R → P) → P := by
   intro hQPP hQR hRP
   apply hQPP
-  intro hQ
+  intro hQP
   apply hRP
   apply hQR
-  exact hQ
 
 example : (((P → Q) → Q) → Q) → P → Q := by
-  intro hPQQQ hP
-  apply hPQQQ
-  intro hPQ
-  apply hPQ
-  exact hP
+  sorry
 
 example :
     (((P → Q → Q) → (P → Q) → Q) → R) →
       ((((P → P) → Q) → P → P → Q) → R) → (((P → P → Q) → (P → P) → Q) → R) → R := by
-  intro _ h2 _
-  apply h2
-  intro hPP_Q hP _
-  apply hPP_Q
-  intro
-  exact hP
+  sorry

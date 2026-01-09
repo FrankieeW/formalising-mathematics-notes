@@ -220,9 +220,4 @@ example : (((P → Q) → Q) → Q) → P → Q := by
 example :
     (((P → Q → Q) → (P → Q) → Q) → R) →
       ((((P → P) → Q) → P → P → Q) → R) → (((P → P → Q) → (P → P) → Q) → R) → R := by
-  intro _ h2 _
-  apply h2
-  intro hPP_Q hP _
-  apply hPP_Q
-  intro
-  exact hP
+  intro h1 h2 h3
