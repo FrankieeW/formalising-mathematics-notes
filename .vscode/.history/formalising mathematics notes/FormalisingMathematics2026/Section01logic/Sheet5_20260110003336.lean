@@ -136,14 +136,4 @@ example : ¬(P ↔ ¬P) := by
   have h1 : P → False := by
     intro hP
     exact h.mp hP hP
-  have h2 : (P → False) → False := by
-    intro hNP
-    exact hNP (h.mpr hNP)
-  exact h2 h1
-
-example : ¬(P ↔ ¬P) :=by
-  intro h
-  have hn : ¬P := by
-    intro hP
-    exact h.mp hP hP
-  exact hn (h.mpr hn)
+    

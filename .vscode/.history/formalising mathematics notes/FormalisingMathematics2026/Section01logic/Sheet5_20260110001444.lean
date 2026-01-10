@@ -97,53 +97,10 @@ example : P ↔ P ∧ True := by
     exact h.left
 
 example : False ↔ P ∧ False := by
-  constructor
-  · intro hF
-    exfalso
-    exact hF
-  · rintro ⟨_, hF⟩
-    exact hF
+  sorry
 
 example : (P ↔ Q) → (R ↔ S) → (P ∧ R ↔ Q ∧ S) := by
-  intro hPQ hRS
-  constructor
-  · rintro ⟨hP, hR⟩
-    constructor
-    · rw [hPQ] at hP
-      exact hP
-    · rw [hRS] at hR
-      exact hR
-  · rintro ⟨hQ, hS⟩
-    constructor
-    · rw [←hPQ] at hQ
-      exact hQ
-    · rw [←hRS] at hS
-      exact hS
-
--- Alternately:
-example : (P ↔ Q) → (R ↔ S) → (P ∧ R ↔ Q ∧ S) := by
-  intro hPQ hRS
-  constructor
-  · rintro ⟨hP, hR⟩
-    exact ⟨hPQ.mp hP, hRS.mp hR⟩
-  · rintro ⟨hQ, hS⟩
-    exact ⟨hPQ.mpr hQ, hRS.mpr hS⟩
-
+  sorry
 
 example : ¬(P ↔ ¬P) := by
-  change (P ↔ P → False) → False
-  intro h
-  have h1 : P → False := by
-    intro hP
-    exact h.mp hP hP
-  have h2 : (P → False) → False := by
-    intro hNP
-    exact hNP (h.mpr hNP)
-  exact h2 h1
-
-example : ¬(P ↔ ¬P) :=by
-  intro h
-  have hn : ¬P := by
-    intro hP
-    exact h.mp hP hP
-  exact hn (h.mpr hn)
+  sorry
