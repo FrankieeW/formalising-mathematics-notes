@@ -143,7 +143,5 @@ example : ¬(P ↔ ¬P) := by
 
 example : ¬(P ↔ ¬P) :=by
   intro h
-  have hn : ¬P := by
-    intro hP
-    exact h.mp hP hP
+  have hn : ¬P := fun hp => (h.mp hp) hp
   exact hn (h.mpr hn)
