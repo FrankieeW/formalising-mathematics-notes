@@ -147,3 +147,5 @@ example : ¬(P ↔ ¬P) :=by
     intro hP
     exact h.mp hP hP
   exact hn (h.mpr hn)
+
+#lint
