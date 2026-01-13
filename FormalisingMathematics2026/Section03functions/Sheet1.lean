@@ -42,11 +42,11 @@ def myFavouriteNumber : ℕ := 7
 /-- For any expression in Lean, I can use `sorry` as a placeholder to mean "I'll fill this in
 later". Any definition or proof that uses `sorry` will give a warning. Let's fill this one in now
 with your favourite number! -/
-def yourFavouriteNumber : ℕ := sorry
+def yourFavouriteNumber : ℕ := 42
 
 #check myFavouriteNumber
 
--- or not give them a name
+-- or not give them a name ℕ ℕ ℕ ℕ
 example : ℕ := 2
 
 -- # But this isn't maths!
@@ -89,8 +89,9 @@ theorem two_plus_two_not_equals_five : 2 + 2 ≠ 5 := by simp
 -- Just like before, this gives me a yellow warning, because I've used `sorry` here instead of
 -- giving the proof.
 theorem erdos_straus :
-    ∀ n : ℕ, 2 ≤ n → ∃ x y z : ℕ, 4 * x * y * z = n * (x * y + x * z + y * z) :=
+    ∀ n : ℕ, 2 ≤ n → ∃ x y z : ℕ, 4 * x * y * z = n * (x * y + x * z + y * z) := by
   sorry
+
 
 -- # How can we make these expressions?
 -- But now the real question is: now that we know certain expressions correspond to proofs, how can
@@ -100,11 +101,14 @@ theorem erdos_straus :
 theorem true : True := trivial
 theorem two_equals_two : 2 = 2 := rfl
 -- And here are two examples of proof terms I can take from the library:
-theorem addition_commutes : ∀ (a b : ℕ), a + b = b + a := Nat.add_comm
+theorem addition_commutes                 : ∀ (a b : ℕ), a + b = b + a := Nat.add_comm
+theorem addition_commutes'      (a b : ℕ) : a + b = b + a := add_comm a b
 theorem multiplication_commutes (a b : ℕ) : a * b = b * a := Nat.mul_comm a b
 -- Observe the second example is stated slightly differently - I've moved `a` and `b` into the
 -- "assumptions" for the theorem instead; and so the proof term changes a little to say I want to
 -- use it for `a` and `b`.
+
+#check add_comm
 
 def MySuperEasyProposition : Prop := 2 = 2
 theorem my_proof : MySuperEasyProposition := rfl
