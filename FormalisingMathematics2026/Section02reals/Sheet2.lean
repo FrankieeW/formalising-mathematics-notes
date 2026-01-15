@@ -16,7 +16,7 @@ knows that the real numbers are a ring. See if you can use
 
 ## New tactics you will need
 
-* `ring`
+* `ring` (for proving ring equalities)
 * `intro` (new functionality: use on a goal of type `⊢ ∀ x, ...`)
 
 -/
@@ -30,10 +30,18 @@ example : ∀ a b : ℝ, ∃ x, (a + b) ^ 3 = a ^ 3 + x * a ^ 2 * b + 3 * a * b 
   ring
 
 example : ∃ x : ℝ, ∀ y, y + y = x * y := by
-  sorry
+  use 2
+  intro y
+  ring
 
 example : ∀ x : ℝ, ∃ y, x + y = 2 := by
-  sorry
+  intro x
+  use 2 - x
+  -- ring
+  norm_num
 
 example : ∀ x : ℝ, ∃ y, x + y ≠ 2 := by
-  sorry
+  intro x
+  use 3 - x
+  norm_num
+  -- ring -- not working here
