@@ -23,7 +23,7 @@ sending n to n^2 + 3:
 
 -- P → Q
 def f : ℕ → ℝ := fun n ↦ n ^ 2 + 3
-
+-- ↦ is typed \ma or \mapsto
 /-
 
 Mathematicians might write `n ↦ n^2+3` for this function. You can
@@ -61,7 +61,7 @@ for the definition, i.e. prove some basic theorems about it.
 theorem tendsTo_def {a : ℕ → ℝ} {t : ℝ} :
     TendsTo a t ↔ ∀ ε, 0 < ε → ∃ B : ℕ, ∀ n, B ≤ n → |a n - t| < ε := by
   rfl  -- true by definition
-
+-- Remark:`{}` for implicit argument and `()` for explicit argument
 -- the eagle-eyed viewers amongst you might have spotted
 -- that `∀ ε > 0, ...` and `∀ ε, ε > 0 → ...` and `∀ ε, 0 < ε → ...`
 -- are all definitionally equal, so `rfl` sees through them.
@@ -75,7 +75,7 @@ Note that `norm_num` can work with `|x|` if `x` is a numeral like 37,
 but it can't do anything with it if it's a variable.
 -/
 /-- The limit of the constant sequence with value 37 is 37. -/
-theorem tendsTo_thirtyseven : TendsTo (fun n ↦ 37) 37 := by
+theorem tendsTo_thirtyseven : TendsTo (fun _ ↦ 37) 37 := by
   rw [tendsTo_def]
   intro ε hε
   use 100
@@ -84,14 +84,22 @@ theorem tendsTo_thirtyseven : TendsTo (fun n ↦ 37) 37 := by
   exact hε
 
 /-- The limit of the constant sequence with value `c` is `c`. -/
-theorem tendsTo_const (c : ℝ) : TendsTo (fun n ↦ c) c := by
+theorem tendsTo_const (c : ℝ) : TendsTo (fun _ ↦ c) c := by
   intro ε hε
   dsimp only
   use 37
   intro n hn
-  ring_nf
-  norm_num
+  -- ring_nf
+  -- norm_num
+  simp
   exact hε
+
+theorem tendsTo_const' {c : ℝ} : TendsTo (fun _ ↦ c) c := by
+  exact tendsTo_const c
+
+theorem tendsTo_thirtyseven' : TendsTo (fun _ ↦ 37) 37 := by
+  -- exact tendsTo_const 37
+  exact tendsTo_const'
 
 /-- If `a(n)` tends to `t` then `a(n) + c` tends to `t + c` -/
 theorem tendsTo_add_const {a : ℕ → ℝ} {t : ℝ} (c : ℝ) (h : TendsTo a t) :
@@ -104,12 +112,17 @@ theorem tendsTo_add_const {a : ℕ → ℝ} {t : ℝ} (c : ℝ) (h : TendsTo a t
   -- of the course notes.  rw [tendsTo_def] at h ⊢
     -- rw [tendsTo_def] at h ⊢
     intro ε hε
-    dsimp only
-    specialize h (ε) hε
+    -- dsimp only
+    specialize h ε hε
     rcases h with ⟨B, h⟩
     use B
     intro n hBleqn
-    specialize h n hBleqn
+    ring_nf
+    exact h n hBleqn
+
+theorem tendsTo_add_const' {a : ℕ → ℝ} {t : ℝ} (c : ℝ) (h : TendsTo a t) :
+    TendsTo (fun n => a n + c) (t + c) := by
+    rw [tendsTo_def] at h ⊢
     ring_nf
     exact h
 
@@ -119,7 +132,7 @@ theorem tendsTo_add_const {a : ℕ → ℝ} {t : ℝ} (c : ℝ) (h : TendsTo a t
 example {a : ℕ → ℝ} {t : ℝ} (ha : TendsTo a t) : TendsTo (fun n => -a n) (-t) := by
   rw [tendsTo_def] at ha ⊢
   intro ε hε
-  specialize ha (ε) hε
+  specialize ha ε hε
   rcases ha with ⟨B, haB⟩
   use B
   intro n hBleqn

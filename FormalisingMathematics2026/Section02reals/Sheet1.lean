@@ -28,6 +28,9 @@ New tactics you'll need to know about:
 *        to `8 + 37 = 42`, and `use 10` will change it to `10 + 37 = 42`.
 
 -/
+example : (2+5 : ℝ)  = 7 := by
+  norm_num
+  -- simp -- not working here
 
 example : (2 : ℝ) + 2 = 4 := by
   norm_num
