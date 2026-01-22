@@ -1,0 +1,65 @@
+% Copyright (c) 2026 Frankie Feng-Cheng WANG. All rights reserved.
+% Repository: https://github.com/FrankieeW/formalising-mathematics-notes
+
+%----------------------------------------------------------------------------------------
+% PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[
+  12pt,
+]{assignment}
+
+\usepackage{amsthm}
+\newtheorem{lemma}{Lemma}
+\usepackage{fontspec}
+\setmonofont{FreeMono}
+\usepackage{minted}
+\newmintinline[lean]{lean4}{bgcolor=white}
+\newminted[leancode]{lean4}{fontsize=\footnotesize,breaklines,breakanywhere}
+\usemintedstyle{tango}
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage{xcolor}
+\newcommand\nb{\addtocounter{equation}{1}\tag{\theequation}}
+\pgfplotsset{compat=1.18}
+
+%-------------------------------------------------------------------------------
+% ASSIGNMENT INFORMATION
+%-------------------------------------------------------------------------------
+
+\title{Coursework 0: Template}
+\author{Your Name}
+% \studentid{YOUR-ID}
+\date{\today}
+\institute{Department of Mathematics\\Imperial College London}
+\course{MATH70040-Formalising Mathematics}
+\lecturer{Dr Bhavik Mehta}
+
+%----------------------------------------------------------------------------------------
+\begin{document}
+\maketitle
+\tableofcontents
+
+%----------------------------------------------------------------------------------------
+% ASSIGNMENT CONTENT
+%----------------------------------------------------------------------------------------
+\section{Introduction}
+This report is a blank template. Replace this text with a short overview of your
+formalisation and the main results you plan to present.
+
+\section{Main Results}
+State your main theorem(s) here, with a brief informal explanation.
+
+\section{Lean Development}
+Describe the structure of your Lean files and include key excerpts.
+
+\section{Reflection}
+Add a short reflection on challenges, design choices, and time investment.
+
+\section{AI Assistance Statement}
+Describe any AI tools used and how you verified the output.
+
+\section{References}
+\printbibliography
+
+\end{document}
