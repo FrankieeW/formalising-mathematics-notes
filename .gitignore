@@ -62,3 +62,74 @@ _build/
 /lean_packages/*
 !/lean_packages/manifest.json
 /.lake/
+
+# LaTeX build artifacts
+*.aux
+*.log
+*.out
+*.toc
+*.fdb_latexmk
+*.fls
+*.synctex.gz
+*.xdv
+*.bbl
+*.blg
+*.bcf
+*.run.xml
+out/
+_minted*/
+
+# LaTeX temporary files
+*.tmp
+*.bak
+*.bak*
+*.sav
+~$*.tex
+*.swp
+*.swo
+
+# LaTeX editor files
+indent.log
+*.fls
+
+# Lean 4 build artifacts
+*.olean
+*.ilean
+*.c
+*.o
+*.so
+*.dynlib
+/lake-build/
+/lake/
+
+# Lean package manager
+lake-manifest.json
+leanpkg.toml
+/.lake/
+
+# Lean temporary files
+*.lean.d
+*.lean.proofs
+*.lean.trace
+
+# opencode AI assistant
+.opencode/
+AGENTS.md
+.opencode-session*
+.opencode-history*
+
+# AI/LLM related
+.env
+.env.local
+.env.*.local
+*.ai-chat
+*.ai-session
+
+# IDE and editor specific
+.vscode/settings.json
+.vscode/launch.json
+.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*~
