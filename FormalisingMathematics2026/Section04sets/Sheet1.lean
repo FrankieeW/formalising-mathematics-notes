@@ -80,18 +80,66 @@ Let's prove some theorems.
 
 -/
 
-example : A ⊆ A := by sorry
+example : A ⊆ A := by
+  -- rfl
+  intro x hx
+  exact hx
 
-example : A ⊆ B → B ⊆ C → A ⊆ C := by sorry
+example : A ⊆ B → B ⊆ C → A ⊆ C := by
+  intro ASubB BSubC x hx
+  exact BSubC (ASubB hx)
 
-example : A ⊆ A ∪ B := by sorry
+example : A ⊆ A ∪ B := by
+  intro x hx
+  -- rw [mem_union_iff]
+  left
+  exact hx
 
-example : A ∩ B ⊆ A := by sorry
+example : A ∩ B ⊆ A := by
+  intro x hx
+  -- rw [mem_inter_iff] at hx
+  exact hx.left
 
-example : A ⊆ B → A ⊆ C → A ⊆ B ∩ C := by sorry
+example : A ⊆ B → A ⊆ C → A ⊆ B ∩ C := by
+-- Way 1
+  intro ASubB ASubC x hx
+  -- rw [mem_inter_iff]
+  constructor
+  · exact ASubB hx
+  · exact ASubC hx
+-- Way 2
 
-example : B ⊆ A → C ⊆ A → B ∪ C ⊆ A := by sorry
 
-example : A ⊆ B → C ⊆ D → A ∪ C ⊆ B ∪ D := by sorry
+example : B ⊆ A → C ⊆ A → B ∪ C ⊆ A := by
+  intro BSubA CSubA x hx
+  rw [mem_union_iff] at hx
+  -- cases hx with
+  -- | inl h => exact BSubA h
+  -- | inr h => exact CSubA h
+  -- OR ---
+  -- obtain (hB | hC) := hx
+  -- · exact BSubA hB
+  -- · exact CSubA hC
+  -- OR ---
+  rcases hx with (hB | hC)
+  · exact BSubA hB
+  · exact CSubA hC
 
-example : A ⊆ B → C ⊆ D → A ∩ C ⊆ B ∩ D := by sorry
+example : A ⊆ B → C ⊆ D → A ∪ C ⊆ B ∪ D := by
+  intro ASubB CSubD x hx
+  -- rw [mem_union_iff] at hx
+  rcases hx with (hA | hC)
+  · left
+    exact ASubB hA
+  · right
+    exact CSubD hC
+
+example : A ⊆ B → C ⊆ D → A ∩ C ⊆ B ∩ D := by
+  intro ASubB CSubD x hx
+  -- rw [mem_inter_iff] at hx
+  -- rw [mem_inter_iff]
+  constructor
+  · exact ASubB hx.left
+  · exact CSubD hx.right
+
+
