@@ -46,20 +46,19 @@ example (g : G) : g⁻¹ * g = 1 :=
 -- with the name of the axiom it found. Note also that you can instead *guess*
 -- the names of the axioms. For example what do you think the proof of `1 * a = a` is called?
 example (a b c : G) : a * b * c = a * (b * c) := by
-  sorry
+  exact mul_assoc a b c
 
 -- can alternatively be found with `apply?` if you didn't know the answer already
 -- or `rw?`
 -- or `simp?`
 example (a : G) : a * 1 = a := by
-  sorry
+  exact mul_one a
 
 -- Can you guess the last two?
 example (a : G) : 1 * a = a := by
-  sorry
-
+  exact one_mul a
 example (a : G) : a * a⁻¹ = 1 := by
-  sorry
+  exact mul_inv_cancel a
 
 -- As well as the axioms, Lean has many other standard facts which are true
 -- in all groups. See if you can prove these from the axioms, or find them
@@ -68,7 +67,8 @@ example (a : G) : a * a⁻¹ = 1 := by
 variable (a b c : G)
 
 example : a⁻¹ * (a * b) = b := by
-  sorry
+  --  simp
+  rw [← mul_assoc, inv_mul_cancel, one_mul]
 
 example : a * (a⁻¹ * b) = b := by
   sorry
@@ -107,4 +107,15 @@ example : (b⁻¹ * a⁻¹)⁻¹ * 1⁻¹⁻¹ * b⁻¹ * (a⁻¹ * a⁻¹⁻¹�
 
 -- Try this trickier problem: if g^2=1 for all g in G, then G is abelian
 example (h : ∀ g : G, g * g = 1) : ∀ g h : G, g * h = h * g := by
-  sorry
+  rintro x y
+  have inv_eq_self : ∀ g : G, g⁻¹ = g := by
+    intro g
+    have h_gg : g * g = 1 := h g
+    have h_inv : g⁻¹ * g = 1 := inv_mul_cancel g
+    calc g⁻¹ = g⁻¹ * 1 := by rw [mul_one]
+      _ = g⁻¹ * (g * g) := by rw [← h_gg]
+      _ = (g⁻¹ * g) * g := by rw [mul_assoc]
+      _ = 1 * g := by rw [h_inv]
+      _ = g := by rw [one_mul]
+  rw [← inv_eq_self (x*y)]
+  rw [mul_inv_rev, inv_eq_self x, inv_eq_self y]

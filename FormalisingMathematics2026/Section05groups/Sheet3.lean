@@ -29,7 +29,8 @@ variable (H : Subgroup G)
 -- satisfying `g ∈ H`.
 
 example (a b : G) (ha : a ∈ H) (hb : b ∈ H) : a * b ∈ H := by
-  exact H.mul_mem ha hb -- I found this with `exact?` and then used dot notation.
+  exact Subgroup.mul_mem H ha hb
+  -- exact H.mul_mem ha hb -- I found this with `exact?` and then used dot notation.
 
 -- You could instead do `apply H.mul_mem` and go on from there.
 
@@ -37,7 +38,10 @@ example (a b : G) (ha : a ∈ H) (hb : b ∈ H) : a * b ∈ H := by
 
 example (a b c : G) (ha : a ∈ H) (hb : b ∈ H) (hc : c ∈ H) :
     a * b⁻¹ * 1 * (a * c) ∈ H := by
-  sorry
+  -- apply H.mul_mem
+  -- · apply H.mul_mem (H.mul_mem ha (H.inv_mem hb)) H.one_mem
+  -- · apply H.mul_mem ha hc
+  exact H.mul_mem (H.mul_mem (H.mul_mem ha (H.inv_mem hb)) H.one_mem) (H.mul_mem ha hc)
 
 /-
 
@@ -63,12 +67,18 @@ example (H K : Subgroup G) : Subgroup G := H ⊓ K
 
 example (H K : Subgroup G) (a : G) : a ∈ H ⊓ K ↔ a ∈ H ∧ a ∈ K := by
   -- true by definition!
-  rfl
+  -- rfl
+  rw [Subgroup.mem_inf]
 
 -- Note that `a ∈ H ⊔ K ↔ a ∈ H ∨ a ∈ K` is not true; only `←` is true.
 -- Take apart the `Or` and use `exact?` to find the relevant lemmas.
 example (H K : Subgroup G) (a : G) : a ∈ H ∨ a ∈ K → a ∈ H ⊔ K := by
-  sorry
+  -- rintro (ha | hb)
+  rintro (ha | hb)
+  · exact (le_sup_left : H ≤ H ⊔ K) ha
+  · exact (le_sup_right : K ≤ H ⊔ K) hb
+
+
 
 end Subgroups
 
@@ -97,13 +107,20 @@ example (a b : G) : φ (a * b⁻¹ * 1) = φ a * (φ b)⁻¹ * 1 := by
   -- if `φ.map_mul` means that `φ` preserves multiplication
   -- (and you can rewrite with this) then what do you think
   -- the lemmas that `φ` preserves inverse and one are called?
-  sorry
+  rw [φ.map_mul, ← φ.map_inv, φ.map_one]
+  rw [mul_one,mul_one]
+  rw [φ.map_mul a b⁻¹]
+
+
+
+#where
 
 -- Group homomorphisms are extensional: if two group homomorphisms
 -- are equal on all inputs then they're the same.
 
 example (φ ψ : G →* H) (h : ∀ g : G, φ g = ψ g) : φ = ψ := by
   -- Use the `ext` tactic.
-  sorry
+  ext g
+  exact h g
 
 end Homomorphisms
