@@ -114,6 +114,7 @@ leanpkg.toml
 
 # opencode AI assistant
 .opencode/
+.sisyphus/
 AGENTS.md
 .opencode-session*
 .opencode-history*
