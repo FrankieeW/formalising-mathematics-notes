@@ -32,6 +32,8 @@ def fancyOp (a b : G) : G := a + b - b
 
 /-! Lean complains that you are providing `a` instead of `G`. -/
 -- lemma fancyOp_eq_left (a b : G) : fancyOp a b = a := sorry
+lemma fancyOp_eq_left (a b : G) : fancyOp G a b = a :=
+  by simp [fancyOp]
 
 end application_type_mismatch
 
@@ -47,7 +49,8 @@ variable {G : Type} [AddCommGroup G]
 def otherFancyOp (a b : G) : G := a + b - b
 
 /-! Works as expected. -/
-lemma otherFancyOp_eq_left (a b : G) : otherFancyOp a b = a := sorry
+lemma otherFancyOp_eq_left (a b : G) : otherFancyOp a b = a :=
+  by simp [otherFancyOp]
 
 end no_application_type_mismatch
 
@@ -66,6 +69,7 @@ def mulByZero {𝕜 : Type} {E : Type} [Field 𝕜] [AddCommGroup E] [Module �
 -- lemma mulByZero_eq_zero {𝕜 E : Type} [Field 𝕜] [AddCommGroup E] [Module 𝕜 E] (x : E) :
 --     mulByZero x = 0 := sorry
 
+
 end dont_know_how_to_synthesize_placeholder
 
 section dont_know_how_to_synthesize_placeholder
@@ -73,7 +77,8 @@ section dont_know_how_to_synthesize_placeholder
 def mulByZero' {𝕜 E : Type} [Field 𝕜] [AddCommGroup E] [Module 𝕜 E] (x : E) : E := (0 : 𝕜) • x
 
 lemma mulByZero'_eq_zero {E : Type} [AddCommGroup E] [Module ℂ E] (x : E) :
-    mulByZero' (𝕜 := ℂ) x = 0 := sorry
+    mulByZero' (𝕜 := ℂ) x = 0 := by
+    simp [mulByZero']
 
 end dont_know_how_to_synthesize_placeholder
 
@@ -125,7 +130,10 @@ end failed_to_synthesize_instance
 -- What should a - b mean if a < b?
 
 example : 2 - 3 = 0 := by
-  sorry
+  simp
+
+example : 5 / 3 = 1 := by
+  simp
 
 example : (2 : ℤ) - 3 = -1 := by
   simp
@@ -134,10 +142,17 @@ example : (2 : ℚ) / 3 = 2 / 3 := by
   simp
 
 example : (2.01 : ℝ) / 3 = 2 / 3 := by
+  --  norm_num
   sorry
+example : (2.01 : ℝ) / 3 ≠  2 / 3 := by
+   norm_num
+
 
 #eval 2 - 3
 #eval 2 / 3
+#eval 5 / 3
+#eval 5. / 3
+#eval 5 / 3.
 -- 2 // 3
 
 example : (1 : ℝ) / 0 = 0 := by simp
