@@ -34,29 +34,95 @@ is `α → α`. In other words, if `x` has a certain type, then
 `x⁻¹` *must* have the same type: the notation was basically designed
 for group theory. In Lean we use the notation `f ⁻¹' T` for this pullback.
 
+REMARK: 函数作用在集合上的像与逆像
+
+
 -/
 
 variable (X Y : Type) (f : X → Y) (S : Set X) (T : Set Y)
 
-example : S ⊆ f ⁻¹' (f '' S) := by sorry
+example : S ⊆ f ⁻¹' (f '' S) := by --
+  intro x h
+  -- rw [Set.mem_preimage]
+  use x
 
-example : f '' (f ⁻¹' T) ⊆ T := by sorry
+
+example : f '' (f ⁻¹' T) ⊆ T := by
+  intro y h
+  -- rw [Set.mem_image] at h
+  obtain ⟨x, h1, h2⟩ := h
+  -- rw [Set.mem_preimage] at h1
+  have h1: f x ∈ T := h1
+  exact h2 ▸ h1
 
 -- `exact?` will do this but see if you can do it yourself.
-example : f '' S ⊆ T ↔ S ⊆ f ⁻¹' T := by sorry
+example : f '' S ⊆ T ↔ S ⊆ f ⁻¹' T := by
+  constructor
+  · intro h1 x h2
+    apply h1
+    use x
+  · intro h1 y h2
+    obtain ⟨x, h3, h4⟩ := h2
+    have h5 : x ∈ f ⁻¹' T := h1 h3
+    exact h4 ▸ h5
 
 -- Pushforward and pullback along the identity map don't change anything
 -- pullback is not so hard
-example : id ⁻¹' S = S := by sorry
+example : id ⁻¹' S = S := by
+  ext x
+  rfl
+  -- constructor <;>
+  --   · intro h
+  --     exact h
 
 -- pushforward is a little trickier. You might have to `ext x`, `constructor`.
-example : id '' S = S := by sorry
+example : id '' S = S := by
+  ext x
+  constructor
+  ·
+    intro h
+    obtain ⟨y, h1, h2⟩ := h
+    -- have h2 : y = x := h2
+    exact h2 ▸ h1
+  ·
+    intro h
+    -- rw [Set.mem_image] -- for understanding no need to do this
+    use x
+    constructor
+    · exact h
+    · rfl
 
 -- Now let's try composition.
 variable (Z : Type) (g : Y → Z) (U : Set Z)
 
 -- preimage of preimage is preimage of comp
-example : g ∘ f ⁻¹' U = f ⁻¹' (g ⁻¹' U) := by sorry
+example : (g ∘ f) ⁻¹' U = f ⁻¹' (g ⁻¹' U) := by
+  ext x
+  rfl
 
 -- preimage of preimage is preimage of comp
-example : g ∘ f '' S = g '' (f '' S) := by sorry
+example : g ∘ f '' S = g '' (f '' S) := by
+  ext z
+  constructor
+  ·
+    rintro ⟨y, h1, h2⟩
+    -- apply Exists.intro (f y)
+    use f y
+    have h3 : f y ∈ f '' S := Exists.intro y ⟨h1, rfl⟩
+    constructor
+    · exact h3
+    · exact h2
+  ·
+    rintro ⟨y, ⟨x, h3, h4⟩, h2⟩
+    -- apply Exists.intro x
+    use x
+    constructor
+    · exact h3
+    ·
+      -- have h5 : g (f x) = z := h2 ▸ h4 ▸ rfl
+      -- explain: h2 :  g y = z and h4 : f x = y
+      -- rfl: g (f x) = g (f x)
+      -- h4 ▸ rfl: g (f x) = g y
+      -- h2 ▸ (h4 ▸ rfl): g (f x) = z
+      -- exact h5
+      exact h2 ▸ h4 ▸ rfl

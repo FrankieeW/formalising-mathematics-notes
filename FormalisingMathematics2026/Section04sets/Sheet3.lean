@@ -34,16 +34,42 @@ example : x ∉ A → x ∈ A → False := by
   intro h1 h2
   exact h1 h2
 
-example : x ∈ A → x ∉ A → False := by sorry
+example : x ∈ A → x ∉ A → False := by
+  intro h1 h2
+  exact h2 h1
 
-example : A ⊆ B → x ∉ B → x ∉ A := by sorry
+example : A ⊆ B → x ∉ B → x ∉ A := by
+  intro h1 h2 h3
+  exact h2 (h1 h3)
 
 -- Lean couldn't work out what I meant when I wrote `x ∈ ∅` so I had
 -- to give it a hint by telling it the type of `∅`.
-example : x ∉ (∅ : Set X) := by sorry
+example : x ∉ (∅ : Set X) := by
+  intro h
+  exact h
 
-example : x ∈ Aᶜ ↔ x ∉ A := by sorry
+example : x ∈ Aᶜ ↔ x ∉ A := by
+  rw [Set.mem_compl_iff]
 
-example : (∀ x, x ∈ A) ↔ ¬∃ x, x ∈ Aᶜ := by sorry
+example : (∀ x, x ∈ A) ↔ ¬∃ x, x ∈ Aᶜ := by
+  constructor
+  · intro h1 h2
+    obtain ⟨y, h3⟩ := h2
+    exact h3 (h1 y)
+  ·
+    intro h1 x
+    by_contra h2
+    have h3 : ∃ x, x ∈ Aᶜ := ⟨x, h2⟩
+    exact h1 h3
 
-example : (∃ x, x ∈ A) ↔ ¬∀ x, x ∈ Aᶜ := by sorry
+example : (∃ x, x ∈ A) ↔ ¬∀ x, x ∈ Aᶜ := by
+  constructor
+  · intro h1 h2
+    obtain ⟨y, h3⟩ := h1
+    exact h2 y h3
+  ·
+    intro h1
+    by_contra h2
+    push_neg at h1 h2
+    obtain ⟨y, h3⟩ := h1
+    exact h3 (h2 y)

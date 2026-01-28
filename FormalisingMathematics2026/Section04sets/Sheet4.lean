@@ -39,6 +39,7 @@ theorem mem_def (X : Type) (P : X → Prop) (a : X) :
     a ∈ {x : X | P x} ↔ P a := by
   rfl
 
+-- mem_def has 3 arguments: a type X, a predicate P on X, and an element a of X.
 /-
 
 Of course, now we've proved this theorem, you can
@@ -54,7 +55,9 @@ def IsEven (n : ℕ) : Prop :=
 -- but the way I've written it is perhaps easier to follow.
 
 example : 74 ∈ {n : ℕ | IsEven n} := by
-  sorry
+  rw [mem_def ℕ IsEven 74]
+  use 37
+
 
 -- Let's develop a theory of even real numbers
 def Real.IsEven (r : ℝ) :=
@@ -62,8 +65,17 @@ def Real.IsEven (r : ℝ) :=
 
 -- Turns out it's not interesting
 example : ∀ x, x ∈ {r : ℝ | Real.IsEven r} := by
-  sorry
+  intro x
+  rw [mem_def ℝ Real.IsEven x]
+  use x / 2
+  ring
 
 -- likewise, the theory of positive negative real numbers is not interesting
 example : ∀ x, x ∉ {r : ℝ | 0 < r ∧ r < 0} := by
-  sorry
+  intro x
+  rw [mem_def ℝ (fun r ↦ 0 < r ∧ r < 0) x]
+  simp
+  -- push_neg at ⊢ -- eq to simp
+  intro h
+  exact Std.le_of_lt h
+  -- linarith
