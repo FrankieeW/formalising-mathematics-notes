@@ -1,9 +1,0 @@
-{
-  // Lean 4 official language server via lake env
-  "lsp": {
-    "lean4": {
-      "command": ["lake", "env", "lean", "--server"],
-      "extensions": [".lean"]
-    }
-  }
-}

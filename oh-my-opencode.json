@@ -1,8 +1,0 @@
-{
-  "lsp": {
-    "lean4": {
-      "command": ["lake", "env", "lean", "--server"],
-      "extensions": [".lean"]
-    }
-  }
-}
