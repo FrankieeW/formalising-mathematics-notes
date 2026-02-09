@@ -169,3 +169,5 @@ example : Real.log (-2) = Real.log 2 := by
 
 #eval 2 - 3
 #eval 2 - 4
+
+-- #loogle _ * (_ ^ _)

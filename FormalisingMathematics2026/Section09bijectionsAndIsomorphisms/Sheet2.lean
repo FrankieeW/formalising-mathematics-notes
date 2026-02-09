@@ -48,9 +48,14 @@ def bijection2 : ℚ ≃ ℚ where
   invFun r := (r - 4) / 3
   left_inv := by
     -- start with `intro r`, then use `dsimp` to tidy up the mess
-    sorry
+    intro r
+    dsimp
+    norm_num
   right_inv := by
-    sorry
+    intro q
+    dsimp
+    ring
+
 
 -- Note that these two terms are *not* equal.
 example : bijection1 ≠ bijection2 := by
@@ -71,3 +76,5 @@ example : bijection1 ≠ bijection2 := by
 -- On the other hand, every true-false statement in Lean has at most one proof,
 -- so `ℚ ≃ ℚ` can't be a true-false statement. It is in fact the set of bijections
 -- from `ℚ` to itself.
+
+
