@@ -53,13 +53,20 @@ first.
 
 -/
 
-theorem mul_left_cancel (h : a * b = a * c) : b = c := by sorry
+theorem mul_left_cancel (h : a * b = a * c) : b = c := by
+  rw [← one_mul b, ← inv_mul_cancel a, mul_assoc, h, ← mul_assoc, inv_mul_cancel, one_mul]
 
-theorem mul_eq_of_eq_inv_mul (h : b = a⁻¹ * c) : a * b = c := by sorry
+theorem mul_eq_of_eq_inv_mul (h : b = a⁻¹ * c) : a * b = c := by
+  apply mul_left_cancel a⁻¹
+  rwa [← mul_assoc, inv_mul_cancel, one_mul]
 
-theorem mul_one (a : G) : a * 1 = a := by sorry
+theorem mul_one (a : G) : a * 1 = a := by
+  apply mul_left_cancel a⁻¹
+  rw [← mul_assoc, inv_mul_cancel, one_mul]
 
-theorem mul_inv_cancel (a : G) : a * a⁻¹ = 1 := by sorry
+theorem mul_inv_cancel (a : G) : a * a⁻¹ = 1 := by
+  apply mul_left_cancel a⁻¹
+  rw [← mul_assoc, inv_mul_cancel, one_mul, mul_one]
 
 /-
 And now we have all the pieces of information, we can put them together in this lemma.
@@ -93,21 +100,20 @@ class BadGroup (G : Type) extends One G, Mul G, Inv G where
 -- `Bool` is a type with two terms, `Bool.true` and `Bool.false`. See if you can make it into
 -- a bad group which isn't a group!
 instance : One Bool :=
-  ⟨sorry⟩
+  ⟨true⟩
 
 instance : Mul Bool :=
-  ⟨sorry⟩
+  ⟨fun x _ => x⟩
 
 instance : Inv Bool :=
-  ⟨sorry⟩
+  ⟨fun _ => true⟩
 
 instance : BadGroup Bool where
-  mul_assoc := sorry
-  -- `by decide`, might be able to do this
-  mul_one := sorry
-  -- by decide
-  inv_mul_cancel := sorry
-  -- by decide
+  mul_assoc := by decide
+  mul_one := by decide
+  inv_mul_cancel := by decide
 
-example : ¬∀ a : Bool, 1 * a = a := by sorry
--- by decide
+example : ¬∀ a : Bool, 1 * a = a := by
+  decide
+
+end Section5sheet2

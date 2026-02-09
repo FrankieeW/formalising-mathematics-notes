@@ -31,9 +31,8 @@ def fancyOp (a b : G) : G := a + b - b
 #check fancyOp
 
 /-! Lean complains that you are providing `a` instead of `G`. -/
--- lemma fancyOp_eq_left (a b : G) : fancyOp a b = a := sorry
-lemma fancyOp_eq_left (a b : G) : fancyOp G a b = a :=
-  by simp [fancyOp]
+lemma fancyOp_eq_left (a b : G) : fancyOp G a b = a := by
+  simp [fancyOp]
 
 end application_type_mismatch
 
@@ -49,8 +48,8 @@ variable {G : Type} [AddCommGroup G]
 def otherFancyOp (a b : G) : G := a + b - b
 
 /-! Works as expected. -/
-lemma otherFancyOp_eq_left (a b : G) : otherFancyOp a b = a :=
-  by simp [otherFancyOp]
+lemma otherFancyOp_eq_left (a b : G) : otherFancyOp a b = a := by
+  simp [otherFancyOp]
 
 end no_application_type_mismatch
 
@@ -66,9 +65,9 @@ section dont_know_how_to_synthesize_placeholder
 def mulByZero {𝕜 : Type} {E : Type} [Field 𝕜] [AddCommGroup E] [Module 𝕜 E] (x : E) : E :=
   (0 : 𝕜) • x
 
--- lemma mulByZero_eq_zero {𝕜 E : Type} [Field 𝕜] [AddCommGroup E] [Module 𝕜 E] (x : E) :
---     mulByZero x = 0 := sorry
-
+lemma mulByZero_eq_zero {𝕜 E : Type} [Field 𝕜] [AddCommGroup E] [Module 𝕜 E] (x : E) :
+    mulByZero (𝕜 := 𝕜) x = 0 := by
+  simp [mulByZero]
 
 end dont_know_how_to_synthesize_placeholder
 
@@ -78,7 +77,7 @@ def mulByZero' {𝕜 E : Type} [Field 𝕜] [AddCommGroup E] [Module 𝕜 E] (x 
 
 lemma mulByZero'_eq_zero {E : Type} [AddCommGroup E] [Module ℂ E] (x : E) :
     mulByZero' (𝕜 := ℂ) x = 0 := by
-    simp [mulByZero']
+  simp [mulByZero']
 
 end dont_know_how_to_synthesize_placeholder
 
@@ -100,7 +99,8 @@ def mulByZero'' (x : E) : E := (0 : 𝕜) • x
 
 #check mulByZero''
 
-lemma mulByZero''_eq_zero (x : E) : mulByZero'' 𝕜 x = 0 := sorry
+lemma mulByZero''_eq_zero (x : E) : mulByZero'' 𝕜 x = 0 := by
+  simp [mulByZero'']
 
 end dont_know_how_to_synthesize_placeholder
 
@@ -114,7 +114,8 @@ section failed_to_synthesize_instance
 
 variable {ι : Type} [Fintype ι]
 
--- lemma card_eq_card_ι_sub_one (i : ι) : Fintype.card {j // j ≠ i} = Fintype.card ι - 1 := sorry
+lemma card_eq_card_ι_sub_one [DecidableEq ι] (i : ι) : Fintype.card {j // j ≠ i} = Fintype.card ι - 1 := by
+  simp
 
 end failed_to_synthesize_instance
 
@@ -140,16 +141,10 @@ example : (2 : ℚ) / 3 ≠ 0 := by
   simp
 
 example : (2.01 : ℝ) / 3 ≠ 2 / 3 := by
-  sorry
-example : (2.01 : ℝ) / 3 ≠  2 / 3 := by
-   norm_num
-
+  norm_num
 
 #eval 2 - 3
 #eval 2 / 3
-#eval 5 / 3
-#eval 5. / 3
-#eval 5 / 3.
 -- 2 // 3
 
 example : (1 : ℝ) / 0 = 0 := by simp
@@ -166,5 +161,3 @@ example : Real.log (-2) = Real.log 2 := by
 
 #eval 2 - 3
 #eval 2 - 4
-
--- #loogle _ * (_ ^ _)

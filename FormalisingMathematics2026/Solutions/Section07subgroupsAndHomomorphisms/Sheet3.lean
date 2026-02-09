@@ -67,7 +67,18 @@ There is of course much more API, but if you want to get some practice you can
 just develop some of it yourself from these two functions.
 -/
 example : (mk' N).ker = N := by
-  sorry
+  ext x
+  rw [MonoidHom.mem_ker, ← (mk' N).map_one, mk'_eq_mk']
+  constructor
+  · rintro ⟨n, hn, h⟩
+    rw [eq_inv_of_mul_eq_one_right h] at hn
+    rw [← inv_inv x]
+    exact N.inv_mem hn
+  · intro h
+    use x⁻¹
+    constructor
+    · exact N.inv_mem h
+    · exact mul_inv_cancel x
 
 /-
 # Universal properties
@@ -109,7 +120,12 @@ variable {P : Subgroup H} [P.Normal]
 def ρ (h : N.map φ ≤ P) : G ⧸ N →* H ⧸ P :=
   lift N ((mk' P).comp φ) (by
     -- we are using `lift` so we need to supply the proof that `(mk' P).comp φ` kills `N`
-    sorry
+    intro x hx
+    simp only [MonoidHom.mem_ker, MonoidHom.coe_comp, coe_mk', Function.comp_apply, eq_one_iff]
+    -- that line came from simp?
+    apply h
+    use x
+    exact ⟨hx, rfl⟩
   )
 
 -- Now let's prove that `ρ ∘ mk' N = mk' P ∘ φ`
