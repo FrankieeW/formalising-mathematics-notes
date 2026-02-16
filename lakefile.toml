@@ -9,8 +9,13 @@ weak.linter.style.longLine = true
 
 [[require]]
 name = "mathlib"
-rev = "v4.26.0"
+rev = "v4.28.0-rc1"
 git = "https://github.com/leanprover-community/mathlib4.git"
+
+[[require]]
+name = "LeanPrism"
+git = "https://codeberg.org/wvhulle/lean-prism.git"
+rev = "main"
 
 [[lean_lib]]
 name = "FormalisingMathematics2026"

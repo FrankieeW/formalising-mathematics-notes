@@ -5,6 +5,7 @@ Authors: Thomas Browning
 -/
 
 import Mathlib
+import LeanPrism
 
 section GroupTheory
 
@@ -34,18 +35,45 @@ example {G G' : Type*} [Group G] [Group G'] (H : Subgroup G)
 example {G : Type*} [Group G] (H K : Subgroup G)
     (hH : Nat.card H = 37) (hK : Nat.card K = 42) :
     H ⊓ K = ⊥ := by
-  sorry
+  have h37 : Nat.card (H ⊓ K : Subgroup G) ∣ Nat.card H := by
+    apply Subgroup.card_dvd_of_le
+    exact inf_le_left
+  have h42 : Nat.card (H ⊓ K : Subgroup G) ∣ Nat.card K := by
+    apply Subgroup.card_dvd_of_le
+    exact inf_le_right
+  have h1 : Nat.card (H ⊓ K : Subgroup G) ∣ Nat.gcd (Nat.card H) (Nat.card K) := by
+    exact Nat.dvd_gcd h37 h42
+  have hcard : Nat.card (H ⊓ K : Subgroup G) = 1 := by
+    simpa [hH, hK, Nat.reduceGcd, Nat.dvd_one] using h1
+  exact Subgroup.card_eq_one.mp hcard
+
+
+
+
 
 /-- Subgroups of coprime index generate the whole group. -/
 example {G : Type*} [Group G] (H K : Subgroup G)
     (hH : H.index = 37) (hK : K.index = 42) :
     H ⊔ K = ⊤ := by
-  sorry
+  have h37 : (H ⊔ K).index ∣ H.index := by
+    apply Subgroup.index_dvd_of_le
+    exact le_sup_left
+  have h42 : (H ⊔ K).index ∣ K.index := by
+    apply Subgroup.index_dvd_of_le
+    exact le_sup_right
+  have h1 : (H ⊔ K).index ∣ Nat.gcd H.index K.index := by
+    exact Nat.dvd_gcd h37 h42
+  simpa [hH, hK, Nat.reduceGcd, Nat.dvd_one, Subgroup.index_eq_one] using h1
+
 
 /-- A group of prime order is cyclic. -/
 example {G : Type*} [Group G] (hG : Nat.card G = 37) :
     ∃ g : G, Subgroup.zpowers g = ⊤ := by
+  have h1 : ∀ g : G, orderOf g ∣ Nat.card G := by
+    intro g
+    exact orderOf_dvd_natCard g
   sorry
+
 
 end GroupTheory
 
@@ -81,7 +109,7 @@ variable {K V W : Type*} [Field K] [AddCommGroup V] [AddCommGroup W]
 
 #check LinearMap.ker f -- `f.ker` in latest Mathlib
 #check LinearMap.range f -- `f.range` in latest Mathlib
-
+#check Module.rank
 /-- The rank-nullity theorem. -/
 example [FiniteDimensional K V] :
     Module.finrank K (LinearMap.range f) +
@@ -92,7 +120,11 @@ example (hV : Module.finrank K V = 42) (hW : Module.finrank K W = 37) :
     ¬ Function.Injective f := by
   have : FiniteDimensional K V := Module.finite_of_finrank_eq_succ hV
   have : FiniteDimensional K W := Module.finite_of_finrank_eq_succ hW
-  sorry
+  by_contra! hf
+  have : Module.finrank K V ≤  Module.finrank K W := by
+    exact LinearMap.finrank_le_finrank_of_injective hf
+  rw [hV, hW] at this
+  linarith
 
 example (hV : Module.finrank K V = 37) (hW : Module.finrank K W = 42) :
     ¬ Function.Surjective f := by
