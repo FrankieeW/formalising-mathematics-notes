@@ -28,7 +28,11 @@ example (X Y : Type) [MetricSpace X] [MetricSpace Y] (f : X → Y) :
 example (X Y Z : Type) [TopologicalSpace X] [TopologicalSpace Y] [TopologicalSpace Z]
     (f : X → Y) (g : Y → Z) (hf : Continuous f) (hg : Continuous g) : Continuous (g ∘ f) := by
   -- can you prove this from first principles? Start with `rw [continuous_def] at *`.
-  sorry
+  rw [continuous_def] at *
+  intros U hU
+  specialize hg U hU
+  specialize hf (g ⁻¹' U) hg
+  exact hf
 
 example (X Y Z : Type) [TopologicalSpace X] [TopologicalSpace Y] [TopologicalSpace Z]
     (f : X → Y) (g : Y → Z) (hf : Continuous f) (hg : Continuous g) : Continuous (g ∘ f) := by
@@ -44,3 +48,9 @@ example (X Y Z : Type) [TopologicalSpace X] [TopologicalSpace Y] [TopologicalSpa
     (f : X → Y) (g : Y → Z) (hf : Continuous f) (hg : Continuous g) : Continuous (g ∘ f) := by
   -- And of course it's also already in the library (which is why the earlier two tactics worked)
   exact Continuous.comp hg hf
+
+#print Continuous.comp
+#check Continuous.comp
+
+#check riesz_lemma
+#print riesz_lemma

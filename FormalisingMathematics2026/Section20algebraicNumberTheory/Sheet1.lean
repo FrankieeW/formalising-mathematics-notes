@@ -76,14 +76,17 @@ example : IsFractionRing ℤ ℚ :=
   Rat.isFractionRing
 -- thanks `exact?`
 
-example : FractionRing ℤ = ℚ :=
+example : FractionRing ℤ = ℚ := by
+
   sorry
+
 -- *NOT PROVABLE IN LEAN*
 -- because `fraction_ring ℤ` is some kind of quotient of
 -- pairs (a,b) with b≠0 by some equivalence relation, whereas ℚ is
 -- not a quotient, it's internally defined to be
 -- pairs (a,b) with a : ℤ, b : ℕ, 0 < b and gcd(a,b)=1.
-
+#check FractionRing ℤ 
+#check ℚ
 -- Of course the fraction ring satisfies `IsFractionRing` though!
 example
     -- let R be an integral domain
