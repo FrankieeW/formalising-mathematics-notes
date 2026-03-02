@@ -43,8 +43,16 @@ open Set
 open scoped Filter
 -- for 𝓟 notation
 
-example (S T : Set α) : 𝓟 S ≤ 𝓟 T ↔ S ⊆ T := by
-  sorry
+lemma principal_le_principal (S T : Set α) : 𝓟 S ≤ 𝓟 T ↔ S ⊆ T := by
+  constructor
+  · intro h
+    rw [le_def] at h
+    specialize h T
+    simpa using h
+  · intro h
+    rw [le_def]
+    intro x hx
+    sorry
 
 -- Here's another useful lemma about principal filters.
 -- It's called `le_principal_iff` in mathlib but why

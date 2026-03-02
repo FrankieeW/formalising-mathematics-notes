@@ -72,7 +72,25 @@ example {G : Type*} [Group G] (hG : Nat.card G = 37) :
   have h1 : ∀ g : G, orderOf g ∣ Nat.card G := by
     intro g
     exact orderOf_dvd_natCard g
+  have h2 : ∀ g : G, orderOf g = 1 ∨ orderOf g = 37 := by
+    intro g
+    have hdiv : orderOf g ∣ 37 := by
+      simpa [hG] using h1 g
+    have hprime : Nat.Prime 37 := by
+      norm_num
+    simpa [Nat.dvd_prime hprime] using hdiv
+  have h3 : ∀ g : G, orderOf g = 1 → g = 1 := by
+    intro g horder
+    rw [orderOf_eq_one_iff] at horder
+    exact horder
+  have h4 : ∃ g : G, orderOf g = 37 := by
+    by_contra h
+    push_neg at h
+    sorry
   sorry
+
+
+
 
 
 end GroupTheory
